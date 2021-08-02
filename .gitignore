@@ -1,0 +1,12 @@
+build/
+dist/
+config.ini
+telegram.txt
+cookie.ini
+*.spec
+.idea/
+__pycache__/
+venv/
+# Who uses Pipenv/Pipfile?
+Pipfile
+Pipfile.lock
