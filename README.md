@@ -1,7 +1,7 @@
 # Korea-Covid-19-Vaccine-Reservation [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[코로나 잔여백신 예약 매크로](https://github.com/SJang1/korea-covid-19-remaining-vaccine-macro) 1.0.24 의 커스텀 빌드입니다.
+[코로나 잔여 백신 예약 매크로](https://github.com/SJang1/korea-covid-19-remaining-vaccine-macro) 1.0.24 의 커스텀 빌드입니다.
 
-지정한 좌표 내 대기중인 병원에서 잔여백신이 확인될 시 설정한 백신 종류로 예약을 시도합니다.
+지정한 좌표 내 대기중인 병원에서 잔여 백신이 확인될 시 설정한 백신 종류로 예약을 시도합니다.
 
 ## 변경 사항
 ### 속도 향상
@@ -9,11 +9,11 @@
 - 예약 실패 시의 delay가 없습니다. (변경 전: 80ms)
 - 대기 중인 병원 리스트는 `p` 키를 누를 시에만 출력됩니다. (변경 전: 항상 출력)
 - 잔여 백신 발견 시, 우선 예약 시도 후 발견 안내문을 출력합니다. (변경 전: 안내문 출력 후 예약 시도)
-- 잔여백신이 있는 병원이 여러 곳일 때, 한 곳의 예약이 실패해도 바로 다음 병원에 예약을 시도합니다. (변경 전: 다음 병원 스킵)
+- 잔여 백신이 있는 병원이 여러 곳일 때, 한 곳의 예약이 실패해도 바로 다음 병원에 예약을 시도합니다. (변경 전: 다음 병원 스킵)
 
 ### 코드 정리
 - mp3가 재생되지 않아 경로를 프로그램 경로로 수정했습니다. 하단의 **주의 사항**을 참고해주세요.
-- 잔여백신 존재 병원이 None인지 검사하는 구문이 제거되었습니다.
+- 잔여 백신 존재 병원이 None인지 검사하는 구문이 제거되었습니다.
 - `find_vaccine`에서의 `while` 문을 `break` 하지 않고 바로 `try_reservation`을 호출합니다.
 - `clear`, `resource_path` 함수가 제거되었습니다.
 
