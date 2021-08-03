@@ -100,7 +100,6 @@ def fill_str_with_space(input_s, max_size=40, fill_char=" "):
 
 def input_config():
     vaccine_candidates = [
-        {"name": "아무거나", "code": "ANY"},
         {"name": "화이자", "code": "VEN00013"},
         {"name": "모더나", "code": "VEN00014"},
         {"name": "아스트라제네카", "code": "VEN00015"},
