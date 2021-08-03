@@ -296,7 +296,6 @@ def retry_reservation(organization_code, vaccine_type):
 
 # pylint: disable=too-many-locals,too-many-statements,too-many-branches
 def find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y):
-    found = None
     data = {"bottomRight": {"x": bottom_x, "y": bottom_y}, "onlyLeft": False, "order": "latitude",
             "topLeft": {"x": top_x, "y": top_y}}
 
@@ -314,8 +313,7 @@ def find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y):
 
             for x in json_data.get("organizations"):
                 if x.get('status') == "AVAILABLE" or x.get('leftCounts') != 0:
-                    found = x
-                    if try_reservation(x.get('orgCode'), vaccine_type, found):
+                    if try_reservation(x.get('orgCode'), vaccine_type, x):
                         return None
 
         except json.decoder.JSONDecodeError as decodeerror:
