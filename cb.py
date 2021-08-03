@@ -229,7 +229,7 @@ class Headers:
 
 def try_reservation(organization_code, vaccine_type):
     data = {"from": "Map", "vaccineCode": vaccine_type, "orgCode": organization_code, "distance": None}
-    response = requests.post('https://vaccine.kakao.com/api/v1/reservation', data=json.dumps(data), headers=Headers.headers_vacc, cookies=jar, verify=False)
+    response = requests.post('https://vaccine.kakao.com/api/v2/reservation', data=json.dumps(data), headers=Headers.headers_vacc, cookies=jar, verify=False)
     print(f"{found.get('orgName')} 에서 백신을 {found.get('leftCounts')}개 발견했습니다.\n{vaccine_type} 으로 예약을 시도합니다.")
     response_json = json.loads(response.text)
 
@@ -257,7 +257,7 @@ def try_reservation(organization_code, vaccine_type):
 
 
 def retry_reservation(organization_code, vaccine_type):
-    reservation_url = 'https://vaccine.kakao.com/api/v1/reservation/retry'
+    reservation_url = 'https://vaccine.kakao.com/api/v2/reservation/retry'
 
     data = {"from": "Map", "vaccineCode": vaccine_type,
             "orgCode": organization_code, "distance": None}
@@ -303,7 +303,7 @@ def find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y):
     while True:
         try:
             print(f"검색 시작: {datetime.now()}")
-            response = requests.post('https://vaccine-map.kakao.com/api/v2/vaccine/left_count_by_coords', data=json.dumps(data), headers=Headers.headers_map, verify=False, timeout=5)
+            response = requests.post('https://vaccine-map.kakao.com/api/v3/vaccine/left_count_by_coords', data=json.dumps(data), headers=Headers.headers_map, verify=False, timeout=5)
             json_data = json.loads(response.text)
 
             # show waiting list only when p key is pressed
