@@ -15,7 +15,6 @@ import urllib3
 import re
 import keyboard
 
-found = None	# 잔여백신이 있는 병원
 urllib3.disable_warnings()
 
 jar = browser_cookie3.chrome(domain_name=".kakao.com")
@@ -227,7 +226,7 @@ class Headers:
     }
 
 
-def try_reservation(organization_code, vaccine_type):
+def try_reservation(organization_code, vaccine_type, found):
     data = {"from": "Map", "vaccineCode": vaccine_type, "orgCode": organization_code, "distance": None}
     response = requests.post('https://vaccine.kakao.com/api/v2/reservation', data=json.dumps(data), headers=Headers.headers_vacc, cookies=jar, verify=False)
     print(f"{found.get('orgName')} 에서 백신을 {found.get('leftCounts')}개 발견했습니다.\n{vaccine_type} 으로 예약을 시도합니다.")
@@ -297,6 +296,7 @@ def retry_reservation(organization_code, vaccine_type):
 
 # pylint: disable=too-many-locals,too-many-statements,too-many-branches
 def find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y):
+    found = None
     data = {"bottomRight": {"x": bottom_x, "y": bottom_y}, "onlyLeft": False, "order": "latitude",
             "topLeft": {"x": top_x, "y": top_y}}
 
@@ -315,7 +315,7 @@ def find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y):
             for x in json_data.get("organizations"):
                 if x.get('status') == "AVAILABLE" or x.get('leftCounts') != 0:
                     found = x
-                    if try_reservation(x.get('orgCode'), vaccine_type):
+                    if try_reservation(x.get('orgCode'), vaccine_type, found):
                         return None
 
         except json.decoder.JSONDecodeError as decodeerror:
