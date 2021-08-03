@@ -226,7 +226,7 @@ class Headers:
     }
 
 
-def try_reservation(organization_code, vaccine_type, ):
+def try_reservation(organization_code, vaccine_type, found):
     data = {"from": "Map", "vaccineCode": vaccine_type, "orgCode": organization_code, "distance": None}
     response = requests.post('https://vaccine.kakao.com/api/v2/reservation', data=json.dumps(data), headers=Headers.headers_vacc, cookies=jar, verify=False)
     print(f"{found.get('orgName')} 에서 백신을 {found.get('leftCounts')}개 발견했습니다.\n{vaccine_type} 으로 예약을 시도합니다.")
