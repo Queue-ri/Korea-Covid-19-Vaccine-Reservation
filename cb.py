@@ -366,10 +366,11 @@ def find_any_vaccine(top_x, top_y, bottom_x, bottom_y):
                     check_organization_url = f'https://vaccine.kakao.com/api/v2/org/org_code/{organization_code}'
                     check_organization_response = requests.get(check_organization_url, headers=Headers.headers_vacc, cookies=jar, verify=False)
                     check_organization_data = json.loads(check_organization_response.text).get("lefts")
-                    for v in check_organization_data:
-                        if v.get('leftCount') != 0:
-                            if try_reservation(organization_code, v.get('vaccineCode'), x):
-                                return None
+                    if check_organization_data is not None:
+                        for v in check_organization_data:
+                            if v.get('leftCount') != 0:
+                                if try_reservation(organization_code, v.get('vaccineCode'), x):
+                                    return None
 
 
         except json.decoder.JSONDecodeError as decodeerror:
