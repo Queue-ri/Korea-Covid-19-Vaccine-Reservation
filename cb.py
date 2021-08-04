@@ -66,20 +66,21 @@ def check_user_info_loaded():
         close()
     else:
         user_info = user_info_json.get("user")
-        for key in user_info:
-            value = user_info[key]
-            # print(key, value)
-            if key != 'status':
-                continue
-            if key == 'status' and value == "NORMAL":
-                print("사용자 정보를 불러오는데 성공했습니다.")
-                break
-            elif key == 'status' and value == "UNKNOWN":
-                print("상태를 알 수 없는 사용자입니다. 1339 또는 보건소에 문의해주세요.")
-                close()
-            else:
-                print("이미 접종이 완료되었거나 예약이 완료된 사용자입니다.")
-                close()
+        if user_info['status'] == "NORMAL":
+            print(f"사용자 정보를 불러오는데 성공했습니다. 사용자명:{user_info['name']}")
+        elif user_info['status'] == "UNKNOWN":
+            print("상태를 알 수 없는 사용자입니다. 1339 또는 보건소에 문의해주세요.")
+            close()
+        elif user_info['status'] == "REFUSED":
+            print("백신을 예약하고 방문하지 않은 사용자로 파악됩니다. 잔여백신 예약이 불가합니다.")
+            close()
+        elif user_info['status'] == "ALREADY_RESERVED" or user_info['status'] == "ALREADY_VACCINATED":
+            print("이미 접종이 완료되었거나 예약이 완료된 사용자입니다.")
+            close()
+        else:
+            print(f"알려지지 않은 상태 코드입니다. 상태코드:{user_info['status']}")
+            print("상태 코드 정보와 함께 Issues 생성 부탁드립니다.")
+            close()
 
 
 def fill_str_with_space(input_s, max_size=40, fill_char=" "):
