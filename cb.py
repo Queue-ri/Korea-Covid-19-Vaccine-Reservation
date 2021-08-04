@@ -306,16 +306,16 @@ def find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y):
             response = requests.post('https://vaccine-map.kakao.com/api/v3/vaccine/left_count_by_coords', data=json.dumps(data), headers=Headers.headers_map, verify=False, timeout=5)
             json_data = json.loads(response.text)
 
+            for x in json_data.get("organizations"):
+                if x.get('status') == "AVAILABLE" or x.get('leftCounts') != 0:
+                    if try_reservation(x.get('orgCode'), vaccine_type, x):
+                        return None
+
             # show waiting list only when p key is pressed
             if keyboard.is_pressed("p"):
                 for org in json_data["organizations"]:
                     if org.get('status') == "INPUT_YET":
                     	print(f"잔여갯수: {org.get('leftCounts')}\t상태: {org.get('status')}\t기관명: {org.get('orgName')}\t주소: {org.get('address')}")
-
-            for x in json_data.get("organizations"):
-                if x.get('status') == "AVAILABLE" or x.get('leftCounts') != 0:
-                    if try_reservation(x.get('orgCode'), vaccine_type, x):
-                        return None
 
         except json.decoder.JSONDecodeError as decodeerror:
             print("JSONDecodeError : ", decodeerror)
@@ -354,12 +354,6 @@ def find_any_vaccine(top_x, top_y, bottom_x, bottom_y):
             response = requests.post('https://vaccine-map.kakao.com/api/v3/vaccine/left_count_by_coords', data=json.dumps(data), headers=Headers.headers_map, verify=False, timeout=5)
             json_data = json.loads(response.text)
 
-            # show waiting list only when p key is pressed
-            if keyboard.is_pressed("p"):
-                for org in json_data["organizations"]:
-                    if org.get('status') == "INPUT_YET":
-                    	print(f"잔여갯수: {org.get('leftCounts')}\t상태: {org.get('status')}\t기관명: {org.get('orgName')}\t주소: {org.get('address')}")
-
             for x in json_data.get("organizations"):
                 if x.get('status') == "AVAILABLE" or x.get('leftCounts') != 0:
                     organization_code = x.get('orgCode')
@@ -370,6 +364,12 @@ def find_any_vaccine(top_x, top_y, bottom_x, bottom_y):
                         if v.get('leftCount') != 0:
                             if try_reservation(organization_code, v.get('vaccineCode'), x):
                                 return None
+
+            # show waiting list only when p key is pressed
+            if keyboard.is_pressed("p"):
+                for org in json_data["organizations"]:
+                    if org.get('status') == "INPUT_YET":
+                    	print(f"잔여갯수: {org.get('leftCounts')}\t상태: {org.get('status')}\t기관명: {org.get('orgName')}\t주소: {org.get('address')}")
 
 
         except json.decoder.JSONDecodeError as decodeerror:
