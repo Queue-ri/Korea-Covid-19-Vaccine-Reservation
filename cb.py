@@ -311,6 +311,8 @@ def find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y):
                 if x.get('status') == "AVAILABLE" or x.get('leftCounts') != 0:
                     if try_reservation(x.get('orgCode'), vaccine_type, x):
                         return None
+                else:
+                    break
 
             # show waiting list only when p key is pressed
             if keyboard.is_pressed("p"):
@@ -365,6 +367,8 @@ def find_any_vaccine(top_x, top_y, bottom_x, bottom_y):
                         if v.get('leftCount') != 0:
                             if try_reservation(organization_code, v.get('vaccineCode'), x):
                                 return None
+                else:
+                    break
 
             # show waiting list only when p key is pressed
             if keyboard.is_pressed("p"):
