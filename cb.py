@@ -343,6 +343,61 @@ def find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y):
             close()
 
 
+def find_any_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y):
+    data = {"bottomRight": {"x": bottom_x, "y": bottom_y}, "onlyLeft": False, "order": "latitude",
+            "topLeft": {"x": top_x, "y": top_y}}
+
+    while True:
+        try:
+            print(f"검색 시작: {datetime.now()}")
+            response = requests.post('https://vaccine-map.kakao.com/api/v3/vaccine/left_count_by_coords', data=json.dumps(data), headers=Headers.headers_map, verify=False, timeout=5)
+            json_data = json.loads(response.text)
+
+            # show waiting list only when p key is pressed
+            if keyboard.is_pressed("p"):
+                for org in json_data["organizations"]:
+                    if org.get('status') == "INPUT_YET":
+                    	print(f"잔여갯수: {org.get('leftCounts')}\t상태: {org.get('status')}\t기관명: {org.get('orgName')}\t주소: {org.get('address')}")
+
+            for x in json_data.get("organizations"):
+                if x.get('status') == "AVAILABLE" or x.get('leftCounts') != 0:
+                    organization_code = x.get('orgCode')
+                    check_organization_url = f'https://vaccine.kakao.com/api/v2/org/org_code/{organization_code}'
+                    check_organization_response = requests.get(check_organization_url, headers=Headers.headers_vacc, cookies=jar, verify=False)
+                    check_organization_data = json.loads(check_organization_response.text).get("lefts")
+                    for v in check_organization_data:
+                        if v.get('leftCount') != 0:
+                            if try_reservation(organization_code, v.get('vaccineCode'), x):
+                                return None
+
+
+        except json.decoder.JSONDecodeError as decodeerror:
+            print("JSONDecodeError : ", decodeerror)
+            print("JSON string : ", response.text)
+            close()
+
+        except requests.exceptions.Timeout as timeouterror:
+            print("Timeout Error : ", timeouterror)
+
+        except requests.exceptions.SSLError as sslerror:
+            print("SSL Error : ", sslerror)
+            close()
+
+        except requests.exceptions.ConnectionError as connectionerror:
+            print("Connection Error : ", connectionerror)
+            # See psf/requests#5430 to know why this is necessary.
+            if not re.search('Read timed out', str(connectionerror), re.IGNORECASE):
+                close()
+
+        except requests.exceptions.HTTPError as httperror:
+            print("Http Error : ", httperror)
+            close()
+
+        except requests.exceptions.RequestException as error:
+            print("AnyException : ", error)
+            close()
+
+
 def main_function():
     print('* * * * * * * * * * * * * * * * * * *')
     print('*                                   *')
