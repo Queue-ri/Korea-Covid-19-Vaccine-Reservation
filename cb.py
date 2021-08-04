@@ -99,6 +99,7 @@ def fill_str_with_space(input_s, max_size=40, fill_char=" "):
 
 def input_config():
     vaccine_candidates = [
+        {"name": "아무거나", "code": "ANY"},
         {"name": "화이자", "code": "VEN00013"},
         {"name": "모더나", "code": "VEN00014"},
         {"name": "아스트라제네카", "code": "VEN00015"},
@@ -411,7 +412,11 @@ def main_function():
         vaccine_type, top_x, top_y, bottom_x, bottom_y = input_config()
     else:
         vaccine_type, top_x, top_y, bottom_x, bottom_y = previous_used_type, previous_top_x, previous_top_y, previous_bottom_x, previous_bottom_y
-    find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y)
+    
+    if vaccine_type == "ANY":
+        find_any_vaccine(top_x, top_y, bottom_x, bottom_y)
+    else:
+        find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y)
     close()
 
 
