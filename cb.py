@@ -343,7 +343,7 @@ def find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y):
             close()
 
 
-def find_any_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y):
+def find_any_vaccine(top_x, top_y, bottom_x, bottom_y):
     data = {"bottomRight": {"x": bottom_x, "y": bottom_y}, "onlyLeft": False, "order": "latitude",
             "topLeft": {"x": top_x, "y": top_y}}
 
