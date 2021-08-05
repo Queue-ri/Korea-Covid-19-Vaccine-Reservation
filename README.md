@@ -35,7 +35,7 @@
 
 ## 이용 방법
 1. Chrome 브라우저를 실행합니다.
-2. [카카오 계정 로그인 페이지](https://accounts.kakao.com/login?continue=https%3A%2F%2Fvaccine-map.kakao.com%2Fmap2%3Fv%3D1)에서 로그인합니다. [(로그인 시 주의사항)](https://github.com/SJang1/korea-covid-19-remaining-vaccine-macro/issues/82)
+2. [카카오 계정 로그인 페이지](https://accounts.kakao.com/login?continue=https%3A%2F%2Fvaccine-map.kakao.com%2Fmap2%3Fv%3D1)에서 로그인합니다. [(로그인 시 주의사항)](https://github.com/Queue-ri/Korea-Covid-19-Vaccine-Reservation/blob/main/login-manual.md)
 3. [카카오 백신 맵](https://vaccine-map.kakao.com/map2?v=1)으로 위치 지정 후 `개발자도구` - `Network` 탭에서 좌표 값을 찾습니다.
 4. `pyinstaller`로 `cb.py`를 빌드합니다.
 5. 백신 코드와 좌표가 입력되면 자동 예약을 시도합니다. 이전 설정(`config.ini`)이 있다면 해당 설정을 재사용할 수 있습니다.
