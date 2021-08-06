@@ -303,7 +303,6 @@ def find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y):
 
     while True:
         try:
-            print(f"검색 시작: {datetime.now()}")
             response = requests.post('https://vaccine-map.kakao.com/api/v3/vaccine/left_count_by_coords', data=json.dumps(data), headers=Headers.headers_map, verify=False, timeout=5)
             json_data = json.loads(response.text)
 
@@ -319,6 +318,8 @@ def find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y):
                 for org in json_data["organizations"]:
                     if org.get('status') == "INPUT_YET":
                     	print(f"잔여갯수: {org.get('leftCounts')}\t상태: {org.get('status')}\t기관명: {org.get('orgName')}\t주소: {org.get('address')}")
+
+            print(f"검색 완료: {datetime.now()}")
 
         except json.decoder.JSONDecodeError as decodeerror:
             print("JSONDecodeError : ", decodeerror)
@@ -353,7 +354,6 @@ def find_any_vaccine(top_x, top_y, bottom_x, bottom_y):
 
     while True:
         try:
-            print(f"검색 시작: {datetime.now()}")
             response = requests.post('https://vaccine-map.kakao.com/api/v3/vaccine/left_count_by_coords', data=json.dumps(data), headers=Headers.headers_map, verify=False, timeout=5)
             json_data = json.loads(response.text)
 
@@ -376,6 +376,7 @@ def find_any_vaccine(top_x, top_y, bottom_x, bottom_y):
                     if org.get('status') == "INPUT_YET":
                     	print(f"잔여갯수: {org.get('leftCounts')}\t상태: {org.get('status')}\t기관명: {org.get('orgName')}\t주소: {org.get('address')}")
 
+            print(f"검색 완료: {datetime.now()}")
 
         except json.decoder.JSONDecodeError as decodeerror:
             print("JSONDecodeError : ", decodeerror)
