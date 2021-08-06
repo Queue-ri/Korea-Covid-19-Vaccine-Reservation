@@ -19,6 +19,7 @@
 - mp3가 재생되지 않아 경로를 프로그램 경로로 수정했습니다. 하단의 **주의 사항**을 참고해주세요.
 - 잔여 백신 존재 병원이 None인지 검사하는 구문이 제거되었습니다.
 - `find_vaccine`에서의 `while` 문을 `break` 하지 않고 바로 `try_reservation`을 호출합니다.
+- `try_reservation` 호출 단의 조건문이 제거되었으며, response 파싱 로직이 간소화되었습니다.
 - `clear`, `resource_path` 함수가 제거되었습니다.
 
 ### UI
