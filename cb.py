@@ -372,7 +372,7 @@ def find_any_vaccine(top_x, top_y, bottom_x, bottom_y):
             for x in json_data.get("organizations"):
                 if x.get('status') == "AVAILABLE" or x.get('leftCounts') != 0:
                     organization_code = x.get('orgCode')
-                    check_organization_url = f'https://vaccine.kakao.com/api/v2/org/org_code/{organization_code}'
+                    check_organization_url = f'https://vaccine.kakao.com/api/v3/org/org_code/{organization_code}'
                     check_organization_response = requests.get(check_organization_url, headers=Headers.headers_vacc, cookies=jar, verify=False)
                     check_organization_data = json.loads(check_organization_response.text).get("lefts")
                     for v in check_organization_data:
