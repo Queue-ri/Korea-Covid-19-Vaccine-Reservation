@@ -234,16 +234,19 @@ def try_reservation(organization_code, vaccine_type, found):
     print(f"{found.get('orgName')} 에서 백신을 {found.get('leftCounts')}개 발견했습니다.\n{vaccine_type} 으로 예약을 시도합니다.")
     response_json = json.loads(response.text)
 
-    for key in response_json:
-        value = response_json[key]
-        if key != 'code':
-            continue
-        if key == 'code' and value == "NO_VACANCY":
+    if response_json.get('error'):
+        print("사용자 정보를 불러오는데 실패하였습니다.")
+        print("Chrome 브라우저에서 카카오에 제대로 로그인되어있는지 확인해주세요.")
+        close()
+    else:
+        reservation_status = response_json['code']
+        
+        if reservation_status == "NO_VACANCY":
             print("잔여백신 접종 신청이 선착순 마감되었습니다.")
-        elif key == 'code' and value == "TIMEOUT":
+        elif reservation_status == "TIMEOUT":
             print("TIMEOUT, 예약을 재시도합니다.")
             retry_reservation(organization_code, vaccine_type)
-        elif key == 'code' and value == "SUCCESS":
+        elif reservation_status == "SUCCESS":
             print("백신접종신청 성공!!!")
             organization_code_success = response_json.get("organization")
             print(
@@ -265,13 +268,17 @@ def retry_reservation(organization_code, vaccine_type):
     response = requests.post(reservation_url, data=json.dumps(
         data), headers=Headers.headers_vacc, cookies=jar, verify=False)
     response_json = json.loads(response.text)
-    for key in response_json:
-        value = response_json[key]
-        if key != 'code':
-            continue
-        if key == 'code' and value == "NO_VACANCY":
+    
+    if response_json.get('error'):
+        print("사용자 정보를 불러오는데 실패하였습니다.")
+        print("Chrome 브라우저에서 카카오에 제대로 로그인되어있는지 확인해주세요.")
+        close()
+    else:
+        reservation_status = response_json['code']
+        
+        if reservation_status == "NO_VACANCY":
             print("잔여백신 접종 신청이 선착순 마감되었습니다.")
-        elif key == 'code' and value == "SUCCESS":
+        elif reservation_status == "SUCCESS":
             print("백신접종신청 성공!!!")
             organization_code_success = response_json.get("organization")
             print(
