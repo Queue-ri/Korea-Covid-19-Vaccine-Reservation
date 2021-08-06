@@ -34,12 +34,22 @@
 ```
 
 ## 이용 방법
+### 기본 사용법
 1. Chrome 브라우저를 실행합니다.
 2. [카카오 계정 로그인 페이지](https://accounts.kakao.com/login?continue=https%3A%2F%2Fvaccine-map.kakao.com%2Fmap2%3Fv%3D1)에서 로그인합니다. [(로그인 시 주의사항)](https://github.com/Queue-ri/Korea-Covid-19-Vaccine-Reservation/blob/main/login-manual.md)
 3. [카카오 백신 맵](https://vaccine-map.kakao.com/map2?v=1)으로 위치 지정 후 `개발자도구` - `Network` 탭에서 좌표 값을 찾습니다.
 4. `pyinstaller`로 `cb.py`를 빌드합니다. **더 빠른 성능을 원할 경우 `nuitka`로 빌드합니다.**
 5. 백신 코드와 좌표가 입력되면 자동 예약을 시도합니다. 이전 설정(`config.ini`)이 있다면 해당 설정을 재사용할 수 있습니다.
 6. 예약 성공 시 빵빠레 소리와 함께 예약이 성공했음이 안내됩니다.
+
+### 텔레그램으로 결과 전송하기
+1. 다음의 내용으로 `telegram.txt`를 작성합니다.
+```
+[telegram]
+token = 토큰값
+chatid = 채팅방ID
+```
+2. `exe` 실행 전 `telegram.txt`는 `exe`와 같은 경로에 위치해야 합니다.
 
 ## 주의 사항
 - **프로그램을 동시에 너무 많이 실행하면 카카오 계정이 정지될 수 있습니다.**
