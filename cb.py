@@ -308,8 +308,7 @@ def find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y):
 
             for x in json_data.get("organizations"):
                 if x.get('status') == "AVAILABLE" or x.get('leftCounts') != 0:
-                    if try_reservation(x.get('orgCode'), vaccine_type, x):
-                        return None
+                    try_reservation(x.get('orgCode'), vaccine_type, x)
                 else:
                     break
 
@@ -365,8 +364,7 @@ def find_any_vaccine(top_x, top_y, bottom_x, bottom_y):
                     check_organization_data = json.loads(check_organization_response.text).get("lefts")
                     for v in check_organization_data:
                         if v.get('leftCount') != 0:
-                            if try_reservation(organization_code, v.get('vaccineCode'), x):
-                                return None
+                            try_reservation(organization_code, v.get('vaccineCode'), x)
                 else:
                     break
 
