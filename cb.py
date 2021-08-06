@@ -67,15 +67,15 @@ def check_user_info_loaded():
     else:
         user_info = user_info_json.get("user")
         if user_info['status'] == "NORMAL":
-            print(f"사용자 정보를 불러오는데 성공했습니다. 사용자명:{user_info['name']}")
+            print(f"[{user_info['name']}]님의 사용자 정보를 불러오는데 성공했습니다.")
         elif user_info['status'] == "UNKNOWN":
-            print(f"상태를 알 수 없는 사용자입니다. 1339 또는 보건소에 문의해주세요. 사용자명:{user_info['name']}")
+            print(f"[{user_info['name']}]님은 현재 상태를 알 수 없는 사용자입니다. 1339 또는 보건소에 문의해주세요.")
             close()
         elif user_info['status'] == "REFUSED":
-            print(f"백신을 예약하고 방문하지 않은 사용자입니다. 잔여백신 예약이 불가합니다. 사용자명:{user_info['name']}")
+            print(f"[{user_info['name']}]님은 백신을 예약하고 방문하지 않은 사용자입니다. 잔여백신 예약이 불가합니다.")
             close()
         elif user_info['status'] == "ALREADY_RESERVED" or user_info['status'] == "ALREADY_VACCINATED":
-            print(f"이미 접종이 완료되었거나 예약이 완료된 사용자입니다. 사용자명:{user_info['name']}")
+            print(f"[{user_info['name']}]님은 이미 접종이 완료되었거나 예약이 완료된 사용자입니다.")
             close()
         else:
             print(f"알려지지 않은 상태 코드입니다. 사용자명:{user_info['name']} 상태코드:{user_info['status']}")
