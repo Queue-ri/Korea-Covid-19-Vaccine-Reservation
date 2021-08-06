@@ -7,7 +7,7 @@ import json
 import os
 import sys
 import time
-from playsound import playsound
+from playsound import playsound, PlaysoundException
 from datetime import datetime
 import telepot
 import unicodedata
