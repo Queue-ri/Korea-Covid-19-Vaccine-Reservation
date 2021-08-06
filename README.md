@@ -44,7 +44,7 @@
 6. 예약 성공 시 빵빠레 소리와 함께 예약이 성공했음이 안내됩니다.
 
 ### 텔레그램으로 결과 전송하기
-1. 다음의 내용으로 `telegram.txt`를 작성합니다.
+1. 다음의 내용으로 `telegram.txt`를 작성합니다. [(추가 설명)](https://github.com/SJang1/korea-covid-19-remaining-vaccine-macro/discussions/574)
 ```
 [telegram]
 token = 토큰값
