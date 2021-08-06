@@ -419,7 +419,7 @@ def find_any_vaccine(top_x, top_y, bottom_x, bottom_y):
 def main_function():
     print('* * * * * * * * * * * * * * * * * * *')
     print('*                                   *')
-    print('*        1.0.24 CUSTOM BUILD        *')
+    print('*        KC19VR CUSTOM BUILD        *')
     print('*            by Queue_ri            *')
     print('*                                   *')
     print('* * * * * * * * * * * * * * * * * * *\n')
