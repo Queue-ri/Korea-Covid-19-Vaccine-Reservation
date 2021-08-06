@@ -185,11 +185,17 @@ def dump_config(vaccine_type, top_x, top_y, bottom_x, bottom_y):
 
 
 def play_tada():
-    playsound('tada.mp3')
+    try:
+        playsound('tada.mp3')
+    except PlaysoundException:
+        print("ERROR: tada.mp3를 재생하지 못했습니다. mp3와 exe가 같은 경로에 있는지 확인해주세요.")
 
 
 def play_xylophon():
-    playsound('xylophon.mp3')
+    try:
+        playsound('xylophon.mp3')
+    except PlaysoundException:
+        print("ERROR: xylophon.mp3를 재생하지 못했습니다. mp3와 exe가 같은 경로에 있는지 확인해주세요.")
 
 
 def close(success=False):
