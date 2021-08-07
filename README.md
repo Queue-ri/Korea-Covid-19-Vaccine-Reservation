@@ -29,7 +29,7 @@
 * * * * * * * * * * * * * * * * * * *
 *                                   *
 *        KC19VR CUSTOM BUILD        *
-*            by Queue_ri            *
+*         v1.x  by Queue_ri         *
 *                                   *
 * * * * * * * * * * * * * * * * * * *
 ```
