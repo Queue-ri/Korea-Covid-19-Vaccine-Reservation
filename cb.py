@@ -125,7 +125,7 @@ def fill_str_with_space(input_s, max_size=40, fill_char=" "):
 def input_config():
     vaccine_type = None
     while True:
-        print("=== 백신 목록 ===")
+        print("\n=== 백신 목록 ===")
         for vaccine in vaccine_candidates:
             if vaccine["name"] == "(미사용)":
                 continue
@@ -446,7 +446,7 @@ def main_function():
     print('* * * * * * * * * * * * * * * * * * *')
     print('*                                   *')
     print('*        KC19VR CUSTOM BUILD        *')
-    print('*            by Queue_ri            *')
+    print('*         v1.5  by Queue_ri         *')
     print('*                                   *')
     print('* * * * * * * * * * * * * * * * * * *\n')
     check_user_info_loaded()
