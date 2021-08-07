@@ -18,6 +18,17 @@ import keyboard
 urllib3.disable_warnings()
 
 jar = browser_cookie3.chrome(domain_name=".kakao.com")
+vaccine_candidates = [
+    {"name": "아무거나", "code": "ANY"},
+    {"name": "화이자", "code": "VEN00013"},
+    {"name": "모더나", "code": "VEN00014"},
+    {"name": "아스트라제네카", "code": "VEN00015"},
+    {"name": "얀센", "code": "VEN00016"},
+    {"name": "(예약불가)노바백스", "code": "VEN00017"},
+    {"name": "(예약불가)시노팜", "code": "VEN00018"},
+    {"name": "(예약불가)시노백", "code": "VEN00019"},
+    {"name": "(예약불가)스푸트니크V", "code": "VEN00020"},
+]
 
 
 # 기존 입력 값 로딩
@@ -40,9 +51,8 @@ def load_config():
                 print('ERROR: config.ini가 손상되었습니다. 파일을 수정하거나 삭제 후 다시 설정해주세요.')
                 close()
             
-            vacc_name = {"ANY": "아무거나", "VEN00013": "화이자", "VEN00014": "모더나", "VEN00015": "아스트라제네카", "VEN00016": "얀센"}
             print("\n[현재 설정]")
-            print(f"백신 종류: {previous_used_type} ({vacc_name[previous_used_type]})")
+            print(f"백신 종류: {previous_used_type} ({next(x['name'] for x in vaccine_candidates if x['code'] == previous_used_type)})")
             print("top_x:", previous_top_x)
             print("top_y:", previous_top_y)
             print("bottom_x:", previous_bottom_x)
@@ -113,17 +123,6 @@ def fill_str_with_space(input_s, max_size=40, fill_char=" "):
 
 
 def input_config():
-    vaccine_candidates = [
-        {"name": "아무거나", "code": "ANY"},
-        {"name": "화이자", "code": "VEN00013"},
-        {"name": "모더나", "code": "VEN00014"},
-        {"name": "아스트라제네카", "code": "VEN00015"},
-        {"name": "얀센", "code": "VEN00016"},
-        {"name": "(예약불가)노바백스", "code": "VEN00017"},
-        {"name": "(예약불가)시노팜", "code": "VEN00018"},
-        {"name": "(예약불가)시노백", "code": "VEN00019"},
-        {"name": "(예약불가)스푸트니크V", "code": "VEN00020"},
-    ]
     vaccine_type = None
     while True:
         print("=== 백신 목록 ===")
