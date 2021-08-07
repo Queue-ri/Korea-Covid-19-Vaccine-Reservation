@@ -119,10 +119,10 @@ def input_config():
         {"name": "모더나", "code": "VEN00014"},
         {"name": "아스트라제네카", "code": "VEN00015"},
         {"name": "얀센", "code": "VEN00016"},
-        {"name": "(미사용)", "code": "VEN00017"},
-        {"name": "(미사용)", "code": "VEN00018"},
-        {"name": "(미사용)", "code": "VEN00019"},
-        {"name": "(미사용)", "code": "VEN00020"},
+        {"name": "(예약불가)노바백스", "code": "VEN00017"},
+        {"name": "(예약불가)시노팜", "code": "VEN00018"},
+        {"name": "(예약불가)시노백", "code": "VEN00019"},
+        {"name": "(예약불가)스푸트니크V", "code": "VEN00020"},
     ]
     vaccine_type = None
     while True:
@@ -131,7 +131,7 @@ def input_config():
             if vaccine["name"] == "(미사용)":
                 continue
             print(
-                f"{fill_str_with_space(vaccine['name'], 10)} : {vaccine['code']}")
+                f"{fill_str_with_space(vaccine['name'], 18)} : {vaccine['code']}")
 
         vaccine_type = str.upper(input("예약시도할 백신 코드를 알려주세요: ").strip())
         if any(x["code"] == vaccine_type for x in vaccine_candidates) or vaccine_type.startswith("FORCE:"):
