@@ -1,4 +1,4 @@
-# Korea-Covid-19-Vaccine-Reservation [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![latest release](https://img.shields.io/github/v/release/Queue-ri/Korea-Covid-19-Vaccine-Reservation)
+# Korea-Covid-19-Vaccine-Reservation [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![latest release](https://img.shields.io/github/v/release/Queue-ri/Korea-Covid-19-Vaccine-Reservation)](https://github.com/Queue-ri/Korea-Covid-19-Vaccine-Reservation/releases)
 [코로나 잔여 백신 예약 매크로](https://github.com/SJang1/korea-covid-19-remaining-vaccine-macro)를 기반으로 한 커스텀 빌드입니다.
 
 **더 빠른 백신 예약을 목표로 하며, 속도를 우선하기 때문에 사용자는 이에 대처가 가능해야 합니다.**
