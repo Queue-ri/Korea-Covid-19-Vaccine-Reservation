@@ -62,8 +62,7 @@ def load_config():
 
             if skip_input:
                 return previous_used_type, previous_top_x, previous_top_y, previous_bottom_x, previous_bottom_y, previous_only_left
-            else:
-                return None, None, None, None, None, None
+
         except ValueError:
             return None, None, None, None, None, None
     return None, None, None, None, None, None
