@@ -163,7 +163,7 @@ def input_config():
         else:
             print("백신 코드를 확인해주세요.")
 
-    print("사각형 모양으로 백신범위를 지정한 뒤, 해당 범위 안에 있는 백신을 조회해서 남은 백신이 있으면 Chrome 브라우저를 엽니다.")
+    print("\n사각형 모양으로 백신범위를 지정한 뒤, 해당 범위 안에 있는 백신을 조회해서 남은 백신이 있으면 예약을 시도합니다.")
     top_x = None
     while top_x is None:
         top_x = input("사각형의 위쪽 좌측 x값을 넣어주세요. 127.xxxxxx: ").strip()
@@ -181,6 +181,7 @@ def input_config():
         bottom_y = input("사각형의 아래쪽 우측 y값을 넣어주세요 37.xxxxxx: ").strip()
         
     only_left = None
+    print("\n남은 잔여백신이 있는 병원만 조회할 경우 현재 대기중인 병원 목록을 확인할 수 없으며, 리퀘스트 딜레이가 줄어들어 계정 정지의 위험이 높아집니다.")
     while only_left is None:
         only_left = str.lower(input("남은 잔여백신이 있는 병원만 조회하시겠습니까? Y/N : "))
         if only_left == "y":
