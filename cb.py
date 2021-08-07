@@ -46,12 +46,13 @@ def load_config():
                 previous_top_y = configuration["topY"]
                 previous_bottom_x = configuration["botX"]
                 previous_bottom_y = configuration["botY"]
-                return previous_used_type, previous_top_x, previous_top_y, previous_bottom_x, previous_bottom_y
+                previous_only_left = configuration["onlyLeft"] == "True"
+                return previous_used_type, previous_top_x, previous_top_y, previous_bottom_x, previous_bottom_y, previous_only_left
             else:
-                return None, None, None, None, None
+                return None, None, None, None, None, None
         except ValueError:
-            return None, None, None, None, None
-    return None, None, None, None, None
+            return None, None, None, None, None, None
+    return None, None, None, None, None, None
 
 
 def check_user_info_loaded():
@@ -165,12 +166,23 @@ def input_config():
     bottom_y = None
     while bottom_y is None:
         bottom_y = input("사각형의 아래쪽 우측 y값을 넣어주세요 37.xxxxxx: ").strip()
+        
+    only_left = None
+    while only_left is None:
+        only_left = str.lower(input("남은 잔여백신이 있는 병원만 조회하시겠습니까? Y/N : "))
+        if only_left == "y":
+            only_left = True
+        elif only_left == "n":
+            only_left = False
+        else:
+            print("Y 또는 N을 입력해 주세요.")
+            only_left = None
 
-    dump_config(vaccine_type, top_x, top_y, bottom_x, bottom_y)
-    return vaccine_type, top_x, top_y, bottom_x, bottom_y
+    dump_config(vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left)
+    return vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left
 
 
-def dump_config(vaccine_type, top_x, top_y, bottom_x, bottom_y):
+def dump_config(vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left):
     config_parser = configparser.ConfigParser()
     config_parser['config'] = {}
     conf = config_parser['config']
@@ -179,6 +191,7 @@ def dump_config(vaccine_type, top_x, top_y, bottom_x, bottom_y):
     conf["topY"] = top_y
     conf["botX"] = bottom_x
     conf["botY"] = bottom_y
+    conf["onlyLeft"] = "True" if only_left else "False"
 
     with open("config.ini", "w") as config_file:
         config_parser.write(config_file)
@@ -310,8 +323,8 @@ def retry_reservation(organization_code, vaccine_type):
 #     print(cookie)
 
 # pylint: disable=too-many-locals,too-many-statements,too-many-branches
-def find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y):
-    data = {"bottomRight": {"x": bottom_x, "y": bottom_y}, "onlyLeft": False, "order": "count",
+def find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left):
+    data = {"bottomRight": {"x": bottom_x, "y": bottom_y}, "onlyLeft": only_left, "order": "count",
             "topLeft": {"x": top_x, "y": top_y}}
 
     while True:
@@ -360,8 +373,8 @@ def find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y):
             close()
 
 
-def find_any_vaccine(top_x, top_y, bottom_x, bottom_y):
-    data = {"bottomRight": {"x": bottom_x, "y": bottom_y}, "onlyLeft": False, "order": "count",
+def find_any_vaccine(top_x, top_y, bottom_x, bottom_y, only_left):
+    data = {"bottomRight": {"x": bottom_x, "y": bottom_y}, "onlyLeft": only_left, "order": "count",
             "topLeft": {"x": top_x, "y": top_y}}
 
     while True:
@@ -424,16 +437,16 @@ def main_function():
     print('*                                   *')
     print('* * * * * * * * * * * * * * * * * * *\n')
     check_user_info_loaded()
-    previous_used_type, previous_top_x, previous_top_y, previous_bottom_x, previous_bottom_y = load_config()
+    previous_used_type, previous_top_x, previous_top_y, previous_bottom_x, previous_bottom_y, previous_only_left = load_config()
     if previous_used_type is None:
-        vaccine_type, top_x, top_y, bottom_x, bottom_y = input_config()
+        vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left = input_config()
     else:
-        vaccine_type, top_x, top_y, bottom_x, bottom_y = previous_used_type, previous_top_x, previous_top_y, previous_bottom_x, previous_bottom_y
+        vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left = previous_used_type, previous_top_x, previous_top_y, previous_bottom_x, previous_bottom_y, previous_only_left
     
     if vaccine_type == "ANY":
-        find_any_vaccine(top_x, top_y, bottom_x, bottom_y)
+        find_any_vaccine(top_x, top_y, bottom_x, bottom_y, only_left)
     else:
-        find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y)
+        find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left)
     close()
 
 
