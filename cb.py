@@ -7,13 +7,14 @@ import json
 import os
 import sys
 import time
-from playsound import playsound, PlaysoundException
 from datetime import datetime
 import telepot
 import unicodedata
 import urllib3
 import re
 import keyboard
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
+from pygame import mixer
 
 urllib3.disable_warnings()
 
@@ -225,16 +226,20 @@ def check_sound_file_loaded():
         
 def play_tada():
     try:
-        playsound('tada.mp3')
-    except PlaysoundException:
-        print("ERROR: tada.mp3를 재생하지 못했습니다. mp3와 exe가 같은 경로에 있는지 확인해주세요.")
+        mixer.init()
+        mixer.music.load('tada.mp3')
+        mixer.music.play()
+    except:
+        print("\nERROR: tada.mp3를 재생하지 못했습니다. mp3와 exe가 같은 경로에 있는지 확인해주세요.")
 
 
 def play_xylophon():
     try:
-        playsound('xylophon.mp3')
-    except PlaysoundException:
-        print("ERROR: xylophon.mp3를 재생하지 못했습니다. mp3와 exe가 같은 경로에 있는지 확인해주세요.")
+        mixer.init()
+        mixer.music.load('xylophon.mp3')
+        mixer.music.play()
+    except:
+        print("\nERROR: xylophon.mp3를 재생하지 못했습니다. mp3와 exe가 같은 경로에 있는지 확인해주세요.")
 
 
 def close(success=False):
