@@ -209,7 +209,20 @@ def dump_config(vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left):
     with open("config.ini", "w") as config_file:
         config_parser.write(config_file)
 
-
+        
+def check_sound_file_loaded():
+    not_loaded = False
+    if not os.path.exists('tada.mp3'):
+        print('ERROR: tada.mp3가 exe 경로에 없습니다. mp3와 exe가 같은 경로에 있는지 확인해주세요.')
+        not_loaded = True
+    if not os.path.exists('xylophon.mp3'):
+        print('ERROR: xylophon.mp3가 exe 경로에 없습니다. mp3와 exe가 같은 경로에 있는지 확인해주세요.')
+        not_loaded = True
+    if not_loaded:
+        input("Press Enter to close...")
+        sys.exit()
+        
+        
 def play_tada():
     try:
         playsound('tada.mp3')
@@ -449,7 +462,10 @@ def main_function():
     print('*         v1.5  by Queue_ri         *')
     print('*                                   *')
     print('* * * * * * * * * * * * * * * * * * *\n')
+    
+    check_sound_file_loaded()
     check_user_info_loaded()
+    
     previous_used_type, previous_top_x, previous_top_y, previous_bottom_x, previous_bottom_y, previous_only_left = load_config()
     if previous_used_type is None:
         vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left = input_config()
