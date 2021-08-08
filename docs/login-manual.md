@@ -2,7 +2,7 @@
 ## Chrome 설정
 - `설정` - `쿠키 및 기타 사이트 데이터` - `모든 쿠키 허용` 으로 설정해주세요.
 - `설정` - `보안` - `세이프 브라우징` - `보호되지 않음` 으로 설정해주세요.
-- **Chrome의 프로파일이 기본 프로파일이어야 합니다. `chrome://version`에서 `프로필 경로`가 `Default` 인지 확인해주세요.**
+- `chrome://version`에 접속하여 `프로필 경로`가 `Default` 인지 확인해주세요. `Default`가 아닐 시 [커스텀 프로파일 설정법](https://github.com/Queue-ri/Korea-Covid-19-Vaccine-Reservation/blob/main/docs/profile-manual.md)을 참고해주세요.
 
 ## Chrome 개발자모드
 - 응답형 디자인 모드 (모바일 보기 모드) 를 끄고 로그인 하셔야 합니다.
