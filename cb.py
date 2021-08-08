@@ -150,6 +150,8 @@ def load_chrome_user_profile():
                 jar = browser_cookie3.chrome(domain_name=".kakao.com", cookie_file=cookie_path)
                 profile_loaded = True
             elif confirm_input == "n":
+                os.remove("profile.ini")
+                print("기존에 설정된 프로파일이 삭제되었습니다.")
                 profile_loaded = False
             else:
                 print("Y 또는 N을 입력해 주세요.")
