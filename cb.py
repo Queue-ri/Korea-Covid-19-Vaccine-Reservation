@@ -526,7 +526,7 @@ def main_function():
     print('* * * * * * * * * * * * * * * * * * *')
     print('*                                   *')
     print('*        KC19VR CUSTOM BUILD        *')
-    print('*         v1.5  by Queue_ri         *')
+    print('*         v1.6  by Queue_ri         *')
     print('*                                   *')
     print('* * * * * * * * * * * * * * * * * * *\n')
     
