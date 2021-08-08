@@ -108,6 +108,66 @@ def check_user_info_loaded():
             close()
 
 
+def set_chrome_user_profile():
+    global jar
+
+    confirm_input = None
+    while confirm_input is None:
+        confirm_input = str.lower(input("Default 프로파일로 진행하시겠습니까? Y/N : "))
+        if confirm_input == "y":
+            return
+        elif confirm_input == "n":
+            profile_path = input("설정하시려는 크롬 프로파일 경로를 입력해주세요. : ")
+            cookie_path = profile_path + "/Cookies"
+            jar = browser_cookie3.chrome(domain_name=".kakao.com", cookie_file=cookie_path)
+            dump_profile(profile_path)
+        else:
+            print("Y 또는 N을 입력해 주세요.")
+            confirm_input = None
+
+
+def load_chrome_user_profile():
+    global jar
+    profile_loaded = False
+
+    config_parser = configparser.ConfigParser()
+    if os.path.exists('profile.ini'):
+        try:
+            config_parser.read('profile.ini')
+            configuration = config_parser['config']
+            profile_path = configuration["profilePath"]
+        except KeyError:
+            print('ERROR: profile.ini가 손상되었습니다. 파일을 수정하거나 삭제 후 다시 설정해주세요.')
+            close()
+
+        print(f"기존에 설정된 크롬 프로파일 경로는\n[{profile_path}] 입니다.")
+
+        confirm_input = None
+        while confirm_input is None:
+            confirm_input = str.lower(input("해당 프로파일로 진행하시겠습니까? Y/N : "))
+            if confirm_input == "y":
+                cookie_path = profile_path + "/Cookies"
+                jar = browser_cookie3.chrome(domain_name=".kakao.com", cookie_file=cookie_path)
+                profile_loaded = True
+            elif confirm_input == "n":
+                profile_loaded = False
+            else:
+                print("Y 또는 N을 입력해 주세요.")
+                confirm_input = None
+
+    return profile_loaded
+
+
+def dump_profile(profile_path):
+    config_parser = configparser.ConfigParser()
+    config_parser['config'] = {}
+    conf = config_parser['config']
+    conf['profilePath'] = profile_path
+
+    with open("profile.ini", "w") as profile:
+        config_parser.write(profile)
+
+
 def fill_str_with_space(input_s, max_size=40, fill_char=" "):
     """
     - 길이가 긴 문자는 2칸으로 체크하고, 짧으면 1칸으로 체크함.
@@ -469,6 +529,11 @@ def main_function():
     print('* * * * * * * * * * * * * * * * * * *\n')
     
     check_sound_file_loaded()
+    
+    profile_loaded = load_chrome_user_profile()
+    if profile_loaded is False:
+        set_chrome_user_profile()
+    
     check_user_info_loaded()
     
     previous_used_type, previous_top_x, previous_top_y, previous_bottom_x, previous_bottom_y, previous_only_left = load_config()
