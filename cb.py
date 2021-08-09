@@ -170,6 +170,20 @@ def dump_profile(profile_path):
         config_parser.write(profile)
 
 
+def check_find_vaccine_filter():
+    confirm_input = None
+    print("\n필터링 모드는 잔여 백신 물량이 있어도 선택하신 백신이 없는 병원을 일시적으로 자동 스킵하는 기능입니다.")
+    while confirm_input is None:
+        confirm_input = str.lower(input("필터링 모드를 사용하시겠습니까? (필요 없을 시 N 권장) Y/N : "))
+        if confirm_input == "y":
+            return True
+        elif confirm_input == "n":
+            return False
+        else:
+            print("Y 또는 N을 입력해 주세요.")
+            confirm_input = None
+
+
 def fill_str_with_space(input_s, max_size=40, fill_char=" "):
     """
     - 길이가 긴 문자는 2칸으로 체크하고, 짧으면 1칸으로 체크함.
@@ -522,6 +536,61 @@ def find_any_vaccine(top_x, top_y, bottom_x, bottom_y, only_left):
             close()
 
 
+def smart_find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left):
+    org_filter = {}
+    data = {"bottomRight": {"x": bottom_x, "y": bottom_y}, "onlyLeft": only_left, "order": "count",
+            "topLeft": {"x": top_x, "y": top_y}}
+
+    while True:
+        try:
+            response = requests.post('https://vaccine-map.kakao.com/api/v3/vaccine/left_count_by_coords', data=json.dumps(data), headers=Headers.headers_map, verify=False, timeout=5)
+            json_data = json.loads(response.text)
+
+            for x in json_data.get("organizations"):
+                org_code = x.get('orgCode')
+                left_counts = x.get('leftCounts')
+                if left_counts != 0:
+                    if org_filter.get(org_code, 0) != left_counts:
+                        try_reservation(org_code, vaccine_type, x)
+                        org_filter[org_code] = left_counts
+                else:
+                    break
+
+            # show waiting list only when p key is pressed
+            if keyboard.is_pressed("p"):
+                for org in json_data["organizations"]:
+                    if org.get('status') == "INPUT_YET":
+                    	print(f"잔여갯수: {org.get('leftCounts')}\t상태: {org.get('status')}\t기관명: {org.get('orgName')}\t주소: {org.get('address')}")
+
+            print(f"검색 완료: {datetime.now()}")
+
+        except json.decoder.JSONDecodeError as decodeerror:
+            print("JSONDecodeError : ", decodeerror)
+            print("JSON string : ", response.text)
+            close()
+
+        except requests.exceptions.Timeout as timeouterror:
+            print("Timeout Error : ", timeouterror)
+
+        except requests.exceptions.SSLError as sslerror:
+            print("SSL Error : ", sslerror)
+            close()
+
+        except requests.exceptions.ConnectionError as connectionerror:
+            print("Connection Error : ", connectionerror)
+            # See psf/requests#5430 to know why this is necessary.
+            if not re.search('Read timed out', str(connectionerror), re.IGNORECASE):
+                close()
+
+        except requests.exceptions.HTTPError as httperror:
+            print("Http Error : ", httperror)
+            close()
+
+        except requests.exceptions.RequestException as error:
+            print("AnyException : ", error)
+            close()
+
+
 def main_function():
     print('* * * * * * * * * * * * * * * * * * *')
     print('*                                   *')
@@ -547,7 +616,11 @@ def main_function():
     if vaccine_type == "ANY":
         find_any_vaccine(top_x, top_y, bottom_x, bottom_y, only_left)
     else:
-        find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left)
+        filter = check_find_vaccine_filter()
+        if filter:
+            smart_find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left)
+        else:
+            find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left)
     close()
 
 
