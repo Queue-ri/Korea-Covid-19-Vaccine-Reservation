@@ -243,7 +243,7 @@ def input_config():
         bottom_y = input("사각형의 아래쪽 우측 y값을 넣어주세요 37.xxxxxx: ").strip()
         
     only_left = None
-    print("\n남은 잔여백신이 있는 병원만 조회할 경우 현재 대기중인 병원 목록을 확인할 수 없으며, 리퀘스트 딜레이가 줄어들어 계정 정지의 위험이 높아집니다.")
+    print("\n남은 잔여백신이 있는 병원만 조회할 경우 속도가 향상되나, 현재 대기중인 병원 목록을 확인할 수 없으며 리퀘스트 딜레이가 줄어들어 계정 정지의 위험이 높아집니다.")
     while only_left is None:
         only_left = str.lower(input("남은 잔여백신이 있는 병원만 조회하시겠습니까? Y/N : "))
         if only_left == "y":
@@ -354,7 +354,7 @@ def try_reservation(organization_code, vaccine_type, found):
         reservation_status = response_json['code']
         
         if reservation_status == "NO_VACANCY":
-            print("잔여백신 접종 신청이 선착순 마감되었습니다.")
+            print("찾으시는 백신이 없거나 선착순 마감되었습니다.")
         elif reservation_status == "TIMEOUT":
             print("TIMEOUT, 예약을 재시도합니다.")
             retry_reservation(organization_code, vaccine_type)
@@ -389,7 +389,7 @@ def retry_reservation(organization_code, vaccine_type):
         reservation_status = response_json['code']
         
         if reservation_status == "NO_VACANCY":
-            print("잔여백신 접종 신청이 선착순 마감되었습니다.")
+            print("찾으시는 백신이 없거나 선착순 마감되었습니다.")
         elif reservation_status == "SUCCESS":
             print("백신접종신청 성공!!!")
             organization_code_success = response_json.get("organization")
