@@ -368,7 +368,7 @@ def try_reservation(organization_code, vaccine_type, found):
         reservation_status = response_json['code']
         
         if reservation_status == "NO_VACANCY":
-            print("찾으시는 백신이 없거나 선착순 마감되었습니다.")
+            retry_reservation(organization_code, vaccine_type)
         elif reservation_status == "TIMEOUT":
             print("TIMEOUT, 예약을 재시도합니다.")
             retry_reservation(organization_code, vaccine_type)
