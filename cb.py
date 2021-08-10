@@ -546,16 +546,18 @@ def smart_find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left
             response = requests.post('https://vaccine-map.kakao.com/api/v3/vaccine/left_count_by_coords', data=json.dumps(data), headers=Headers.headers_map, verify=False, timeout=5)
             json_data = json.loads(response.text)
 
+            new_org_filter = {}
             for x in json_data.get("organizations"):
                 org_code = x.get('orgCode')
                 left_counts = x.get('leftCounts')
                 if left_counts != 0:
                     if org_filter.get(org_code, 0) != left_counts:
                         try_reservation(org_code, vaccine_type, x)
-                        org_filter[org_code] = left_counts
+                    new_org_filter[org_code] = left_counts
                 else:
                     break
-
+            org_filter = new_org_filter
+            
             # show waiting list only when p key is pressed
             if keyboard.is_pressed("p"):
                 for org in json_data["organizations"]:
