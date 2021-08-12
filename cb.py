@@ -536,8 +536,63 @@ def find_any_vaccine(top_x, top_y, bottom_x, bottom_y, only_left):
             close()
 
 
-def smart_find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left):
-    org_filter = {}
+def filter_init(vaccine_type, top_x, top_y, bottom_x, bottom_y):
+    print("\n필터링을 시작합니다. 잠시만 기다려주세요.")
+    filter = {}
+    data = {"bottomRight": {"x": bottom_x, "y": bottom_y}, "onlyLeft": True, "order": "count",
+            "topLeft": {"x": top_x, "y": top_y}}
+
+    while True:
+        try:
+            response = requests.post('https://vaccine-map.kakao.com/api/v3/vaccine/left_count_by_coords', data=json.dumps(data), headers=Headers.headers_map, verify=False, timeout=5)
+            json_data = json.loads(response.text)
+
+            for x in json_data.get("organizations"):
+                left_counts = x.get('leftCounts')
+                organization_code = x.get('orgCode')
+                check_organization_url = f'https://vaccine.kakao.com/api/v3/org/org_code/{organization_code}'
+                check_organization_response = requests.get(check_organization_url, headers=Headers.headers_vacc, cookies=jar, verify=False)
+                check_organization_data = json.loads(check_organization_response.text).get("lefts")
+                for v in check_organization_data:
+                    if v.get('vaccineCode') == vaccine_type and v.get('leftCount') != 0:
+                        try_reservation(organization_code, v.get('vaccineCode'), x)
+                        left_counts -= v.get('leftCount')
+                        break
+                filter[organization_code] = left_counts
+
+            break
+
+        except json.decoder.JSONDecodeError as decodeerror:
+            print("JSONDecodeError : ", decodeerror)
+            print("JSON string : ", response.text)
+            close()
+
+        except requests.exceptions.Timeout as timeouterror:
+            print("Timeout Error : ", timeouterror)
+
+        except requests.exceptions.SSLError as sslerror:
+            print("SSL Error : ", sslerror)
+            close()
+
+        except requests.exceptions.ConnectionError as connectionerror:
+            print("Connection Error : ", connectionerror)
+            # See psf/requests#5430 to know why this is necessary.
+            if not re.search('Read timed out', str(connectionerror), re.IGNORECASE):
+                close()
+
+        except requests.exceptions.HTTPError as httperror:
+            print("Http Error : ", httperror)
+            close()
+
+        except requests.exceptions.RequestException as error:
+            print("AnyException : ", error)
+            close()
+
+    return filter
+            
+            
+def smart_find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left, filter):
+    org_filter = filter
     data = {"bottomRight": {"x": bottom_x, "y": bottom_y}, "onlyLeft": only_left, "order": "count",
             "topLeft": {"x": top_x, "y": top_y}}
 
@@ -618,9 +673,10 @@ def main_function():
     if vaccine_type == "ANY":
         find_any_vaccine(top_x, top_y, bottom_x, bottom_y, only_left)
     else:
-        filter = check_find_vaccine_filter()
-        if filter:
-            smart_find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left)
+        apply_filter = check_find_vaccine_filter()
+        if apply_filter:
+            filter = filter_init(vaccine_type, top_x, top_y, bottom_x, bottom_y)
+            smart_find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left, filter)
         else:
             find_vaccine(vaccine_type, top_x, top_y, bottom_x, bottom_y, only_left)
     close()
