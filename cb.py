@@ -18,7 +18,10 @@ from pygame import mixer
 
 urllib3.disable_warnings()
 
-jar = browser_cookie3.chrome(domain_name=".kakao.com")
+# DEPRECATED (~21.08.19)
+# jar = browser_cookie3.chrome(domain_name=".kakao.com")
+jar = {}
+
 vaccine_candidates = [
     {"name": "아무거나", "code": "ANY"},
     {"name": "화이자", "code": "VEN00013"},
@@ -108,6 +111,53 @@ def check_user_info_loaded():
             close()
 
 
+def set_kakao_user_cookie():
+    global jar
+    user_kavacto = input("카카오톡 인앱 브라우저에서 확인한 쿠키 값을 입력해주세요.\n예) VGhpcyBpcy...lNjQgc3RyaW5nLg== : ")
+    jar = {'_kavacto': user_kavacto}
+    dump_cookie(user_kavacto)
+    
+    
+def dump_cookie(user_kavacto):
+    config_parser = configparser.ConfigParser()
+    config_parser['cookie'] = {}
+    conf = config_parser['cookie']
+    conf['_kavacto'] = user_kavacto
+    with open("cookie.ini", "w") as cookie:
+        config_parser.write(cookie)
+        
+        
+def load_kakao_user_cookie():
+    global jar
+    cookie_loaded = False
+    
+    config_parser = configparser.ConfigParser()
+    if os.path.exists('cookie.ini'):
+        try:
+            config_parser.read('cookie.ini')
+            configuration = config_parser['cookie']
+            user_kavacto = configuration["_kavacto"]
+            jar = {'_kavacto': user_kavacto}
+            cookie_loaded = True
+        except KeyError:
+            print('ERROR: cookie.ini가 손상되었습니다. 파일을 수정하거나 삭제 후 다시 설정해주세요.')
+            close()
+    confirm_input = None
+    while confirm_input is None:
+        confirm_input = str.lower(input("기존의 사용자 정보로 진행하시겠습니까? Y/N : "))
+        if confirm_input == "y":
+            config_parser = configparser.ConfigParser()
+            
+        elif confirm_input == "n":
+            os.remove("cookie.ini")
+            print("기존에 설정된 사용자 정보가 삭제되었습니다.")
+            cookie_loaded = False
+        else:
+            print("Y 또는 N을 입력해 주세요.")
+            confirm_input = None
+    return cookie_loaded
+
+            
 def set_chrome_user_profile():
     global jar
 
@@ -658,9 +708,14 @@ def main_function():
     
     check_sound_file_loaded()
     
-    profile_loaded = load_chrome_user_profile()
-    if profile_loaded is False:
-        set_chrome_user_profile()
+    # DEPRECATED (~21.08.19)
+    # profile_loaded = load_chrome_user_profile()
+    # if profile_loaded is False:
+    #     set_chrome_user_profile()
+    
+    cookie_loaded = load_kakao_user_cookie()
+    if cookie_loaded is False:
+        set_kakao_user_cookie()
     
     check_user_info_loaded()
     
