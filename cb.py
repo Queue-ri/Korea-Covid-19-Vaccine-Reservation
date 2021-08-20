@@ -702,7 +702,7 @@ def main_function():
     print('* * * * * * * * * * * * * * * * * * *')
     print('*                                   *')
     print('*        KC19VR CUSTOM BUILD        *')
-    print('*         v1.7  by Queue_ri         *')
+    print('*         v1.8  by Queue_ri         *')
     print('*                                   *')
     print('* * * * * * * * * * * * * * * * * * *\n')
     
