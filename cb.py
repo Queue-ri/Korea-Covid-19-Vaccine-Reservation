@@ -138,7 +138,7 @@ def load_kakao_user_cookie():
             configuration = config_parser['cookie']
             user_kavacto = configuration["_kavacto"]
             jar = {'_kavacto': user_kavacto}
-            cookie_loaded = True
+            
         except KeyError:
             print('ERROR: cookie.ini가 손상되었습니다. 파일을 수정하거나 삭제 후 다시 설정해주세요.')
             close()
@@ -147,8 +147,7 @@ def load_kakao_user_cookie():
         while confirm_input is None:
             confirm_input = str.lower(input("기존의 사용자 정보로 진행하시겠습니까? Y/N : "))
             if confirm_input == "y":
-                config_parser = configparser.ConfigParser()
-                
+                cookie_loaded = True
             elif confirm_input == "n":
                 os.remove("cookie.ini")
                 print("기존에 설정된 사용자 정보가 삭제되었습니다.")
