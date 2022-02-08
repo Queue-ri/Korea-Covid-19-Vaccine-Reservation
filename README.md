@@ -1,5 +1,5 @@
-# Korea-Covid-19-Vaccine-Reservation
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![latest release](https://img.shields.io/github/v/release/Queue-ri/Korea-Covid-19-Vaccine-Reservation)](https://github.com/Queue-ri/Korea-Covid-19-Vaccine-Reservation/releases) [![Python Lint](https://github.com/Queue-ri/Korea-Covid-19-Vaccine-Reservation/actions/workflows/python-lint.yml/badge.svg)](https://github.com/Queue-ri/Korea-Covid-19-Vaccine-Reservation/actions/workflows/python-lint.yml)
+# 💉 Korea-Covid-19-Vaccine-Reservation
+![Kakao](https://img.shields.io/badge/Kakao-ffcd00.svg?style=flat&logo=kakao&logoColor=000000) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![latest release](https://img.shields.io/github/v/release/Queue-ri/Korea-Covid-19-Vaccine-Reservation)](https://github.com/Queue-ri/Korea-Covid-19-Vaccine-Reservation/releases) [![Python Lint](https://github.com/Queue-ri/Korea-Covid-19-Vaccine-Reservation/actions/workflows/python-lint.yml/badge.svg)](https://github.com/Queue-ri/Korea-Covid-19-Vaccine-Reservation/actions/workflows/python-lint.yml)
 
 [코로나 잔여 백신 예약 매크로](https://github.com/SJang1/korea-covid-19-remaining-vaccine-macro)를 기반으로 한 커스텀 빌드입니다.
 
@@ -9,18 +9,18 @@
 
 ## 📌 변경 사항
 ### 속도 향상
-- **request delay가 없습니다. 주의해주세요.** (변경 전: 200ms)
-- 예약 실패 시의 delay가 없습니다. (변경 전: 80ms)
-- 대기 중인 병원 리스트는 `p` 키를 누를 시에만 출력됩니다. (변경 전: 항상 출력)
-- 잔여 백신 발견 시, 우선 예약 시도 후 발견 안내문을 출력합니다. (변경 전: 안내문 출력 후 예약 시도)
-- `ANY` 옵션의 로직을 분리하여 프로시저를 간소화합니다. v1.3부터 지원됩니다. (변경 전: 분리되지 않음)
-- 잔여 백신이 있는 병원이 여러 곳일 때, 한 곳의 예약이 실패해도 바로 다음 병원에 예약을 시도합니다. (변경 전: 다음 병원 스킵)
-- 잔여 백신 물량이 많은 순으로 예약을 시도하고, 물량이 없다면 `break` 후 서버에 다시 요청합니다. (변경 전: `break` 없음)
+- **request delay가 없습니다. 주의해주세요.** *(변경 전: 200ms)*
+- 예약 실패 시의 delay가 없습니다. *(변경 전: 80ms)*
+- 대기 중인 병원 리스트는 `p` 키를 누를 시에만 출력됩니다. *(변경 전: 항상 출력)*
+- 잔여 백신 발견 시, 우선 예약 시도 후 발견 안내문을 출력합니다. *(변경 전: 안내문 출력 후 예약 시도)*
+- `ANY` 옵션의 로직을 분리하여 프로시저를 간소화합니다. v1.3부터 지원됩니다. *(변경 전: 분리되지 않음)*
+- 잔여 백신이 있는 병원이 여러 곳일 때, 한 곳의 예약이 실패해도 바로 다음 병원에 예약을 시도합니다. *(변경 전: 다음 병원 스킵)*
+- 잔여 백신 물량이 많은 순으로 예약을 시도하고, 물량이 없다면 `break` 후 서버에 다시 요청합니다. *(변경 전: `break` 없음)*
 
 ### UI/UX
 - **`Default`가 아닌 크롬 프로파일을 지원합니다.** (v1.6 부터 지원)
 - **잔여 백신이 있어도 선택한 백신이 없는 병원을 일시적으로 스킵하는 필터링 모드를 지원합니다.** (v1.7 부터 지원)
-- `playsound`가 불안정하여 mp3 경로를 수정하고 라이브러리를 변경했습니다. 하단의 **주의 사항**을 참고해주세요.
+- `playsound`가 불안정하여 mp3 경로 수정 및 라이브러리를 변경했습니다. 하단의 **주의 사항**을 참고해주세요.
 - 편의를 위해 연동된 카카오 사용자명이 출력됩니다.
 - 실행 시 커스텀 빌드 안내용 배너가 출력됩니다. (버전은 v1.5부터 표시됩니다.)
 ```
